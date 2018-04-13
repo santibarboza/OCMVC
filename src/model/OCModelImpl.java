@@ -25,7 +25,6 @@ public class OCModelImpl implements OCModel {
 
 	@Override
 	public boolean compilaElArchivo(String DireccionInicio) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

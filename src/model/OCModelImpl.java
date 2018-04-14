@@ -27,4 +27,16 @@ public class OCModelImpl implements OCModel {
 	public boolean compilaElArchivo(String DireccionInicio) {
 		return false;
 	}
+
+	@Override
+	public void mostrarMensaje(String mensaje) {
+		if (listener != null) {
+		      listener.mostrarMensaje(mensaje);
+		}
+	}
+
+	@Override
+	public String pedirDialogo(String pedido) {
+		return "03";
+	}
 }

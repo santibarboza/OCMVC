@@ -2,6 +2,7 @@ package model.Analizadores;
 
 import java.util.Hashtable;
 
+import model.Archivos.Archivo;
 import model.RepresentacionMemoria.Memoria;
 import model.RepresentacionMemoria.RepresentacionDeLaMemoria;
 import model.RepresentacionMemoria.TabladeEtiquetas;
@@ -41,18 +42,23 @@ public class AnalizadorSintacticoySemanticoImpl implements AnalizadorSintacticoy
 			explicacionDeSimbolos.put("EOF","el fin de Archivo");
 		}catch(NullPointerException e){}
 	}
-	
+	public void compilar(Archivo archivo,int direccionInicio)throws ErrorOCUNS {
+		iniciarMemoria(archivo,direccionInicio);
+		inicial();
+		tablaDeEtiquetas.remplazarEtiquetas(memoria);
+	}
+	private void iniciarMemoria(Archivo archivo,int direccionInicio) throws ErrorOCUNS {
+		memoria.iniciar(direccionInicio);
+		tablaDeEtiquetas.iniciar();
+		analizadorLexico.iniciarConArchivo(archivo);
+	}
 	/**
 	 * <Inicial> → <Sentencias>  EOF
 	 */
-	@Override
-	public void inicial() throws ErrorOCUNS {
-		try{
-		
+	private void inicial() throws ErrorOCUNS {
+		try{		
 			Sentencias();
 			match("EOF");
-			tablaDeEtiquetas.remplazarEtiquetas(memoria);
-
 		}catch(ArrayIndexOutOfBoundsException e){
 			throw new ErrorEjecucion("La direccion de ensamblado es muy grande,no se puede cargar el programa a partir de esa direccion");
 		}

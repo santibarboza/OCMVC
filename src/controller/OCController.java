@@ -11,4 +11,5 @@ public interface OCController {
 	public void onEventVerMemoria();
 	public void onEventSiguientePaso();
 	public void onEventVerAyuda();
+	public String pedirDialogo(String pedido);
 }

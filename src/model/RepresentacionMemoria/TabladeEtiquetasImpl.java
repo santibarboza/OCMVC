@@ -10,6 +10,10 @@ public class TabladeEtiquetasImpl implements TabladeEtiquetas {
 	protected Hashtable<Integer,String> pendiente;
 	
 	public TabladeEtiquetasImpl(){
+		iniciar();
+	}
+	@Override
+	public void iniciar() {
 		etiquetas=new Hashtable<String,Integer> ();
 		pendiente= new Hashtable<Integer,String>();
 	}

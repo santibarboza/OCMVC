@@ -67,5 +67,10 @@ public class OCControllerImpl implements OCController {
 		public void onEventVerAyuda() {
 			
 		}
+
+		@Override
+		public String pedirDialogo(String pedido) {
+			return ocView.pedirDialogo(pedido);
+		}
 		
 }

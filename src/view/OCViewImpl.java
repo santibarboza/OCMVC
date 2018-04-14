@@ -8,6 +8,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -15,15 +17,17 @@ import javax.swing.JTextPane;
 
 
 import model.OCModel;
+import model.OCModelListener;
 import controller.OCController;
 
 public class OCViewImpl implements OCView{
 	private OCController ocController;
-	//private OCModel ocModel;
+	private OCModel ocModel;
 	
-	private JFrame ventanaPrincipal;
+	//private JFrame ventanaPrincipal;
 	private JFrame ventanaMemoria;
 	//private JFrame ventanaHelp;
+	protected JPanel contentPane;
 	
 //	private String direccionInicio;
 	private JButton botonAbrirArchivo; 
@@ -43,7 +47,7 @@ public class OCViewImpl implements OCView{
 	OCViewImpl(OCController ocController, OCModel ocModel) {
 
 	    this.ocController = ocController;
-	//    this.ocModel = ocModel;
+	    this.ocModel = ocModel;
 
 	    initialize();
 	    initListeners();
@@ -56,13 +60,17 @@ public class OCViewImpl implements OCView{
 		this.textoTutorial.setText(texto);
 	}
 	private void initListeners() {
-		/*
-	    userModel.setListener(new UserModelListener() {
-	      @Override public void didUpdateUser() {
-	        updateUserFields();
-	      }
+	    ocModel.setListener(new OCModelListener() {
+			@Override
+			public void didUpdateModel() {
+				
+			}
+			@Override
+			public void mostrarMensaje(String mensaje) {
+				JOptionPane.showMessageDialog(null, mensaje);
+			}
 	    });
-	    */
+	    
 		botonAbrirArchivo.addActionListener(new ActionListener() {
 	      public void actionPerformed(ActionEvent e) {
 	    	  ocController.onEventAbrirArchivo();
@@ -103,16 +111,13 @@ public class OCViewImpl implements OCView{
 		botonVerMemoria.setEnabled(true);
     }
 	private void initialize() {
-		ventanaPrincipal = new JFrame();
-		ventanaPrincipal.setTitle("OCUNS - VirtualMachine");
-		ventanaPrincipal.setBounds(50, 50, 800, 520);
-		ventanaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		ventanaPrincipal.getContentPane().setLayout(null);
+		this.contentPane=new JPanel();
+		this.contentPane.setLayout(null);
 		
 		botonAbrirArchivo = new JButton("Abrir Nuevo Archivo");
 		botonAbrirArchivo.setBounds(12, 15, 199, 25);
 		
-		ventanaPrincipal.getContentPane().add(botonAbrirArchivo);
+		this.contentPane.add(botonAbrirArchivo);
 		
 		textoTutorial = new JTextField();
 		textoTutorial.setEditable(false);
@@ -121,64 +126,64 @@ public class OCViewImpl implements OCView{
 		textoTutorial.setText("Para iniciar la Aplicación Elegí el Archivo a Compilar");
 		textoTutorial.setBounds(12, 460, 770, 19);
 				
-		ventanaPrincipal.getContentPane().add(textoTutorial);
+		this.contentPane.add(textoTutorial);
 		textoTutorial.setColumns(10);
 		
 		nombreArchivoActual = new JLabel("");
 		nombreArchivoActual.setBackground(null);
 		nombreArchivoActual.setAutoscrolls(true);
 		nombreArchivoActual.setBounds(236, 15, 534, 25);
-		ventanaPrincipal.getContentPane().add(nombreArchivoActual);
+		this.contentPane.add(nombreArchivoActual);
 		
 		botonCompilar = new JButton("Compilar");
 		botonCompilar.setEnabled(false);
 		botonCompilar.setBounds(12, 83, 117, 25);
-		ventanaPrincipal.getContentPane().add(botonCompilar);
+		this.contentPane.add(botonCompilar);
 		
 		botonEjecutar = new JButton("Ejecutar");
 		botonEjecutar.setEnabled(false);
 		botonEjecutar.setBounds(653, 64, 117, 25);
-		ventanaPrincipal.getContentPane().add(botonEjecutar);
+		this.contentPane.add(botonEjecutar);
 		
 		tipoDeEjecucion = new JComboBox<String>();
 		tipoDeEjecucion.addItem("Ejecutar todo el Codigo");
 		tipoDeEjecucion.addItem("Ejecutar de a una Instruccion");
 		tipoDeEjecucion.setEnabled(false);
 		tipoDeEjecucion.setBounds(328, 64, 271, 25);
-		ventanaPrincipal.getContentPane().add(tipoDeEjecucion);
+		this.contentPane.add(tipoDeEjecucion);
 		
 		contenidoArchivoActual = new TextArea();
 		contenidoArchivoActual.setEnabled(false);
 		contenidoArchivoActual.setEditable(false);
 		contenidoArchivoActual.setBounds(30, 150, 200, 300);
-		ventanaPrincipal.getContentPane().add(contenidoArchivoActual);
+		this.contentPane.add(contenidoArchivoActual);
 		
 		lblArchivoOriginal = new JLabel("Archivo Original");
 		lblArchivoOriginal.setEnabled(false);
 		lblArchivoOriginal.setBounds(58, 125, 111, 15);
-		ventanaPrincipal.getContentPane().add(lblArchivoOriginal);
+		this.contentPane.add(lblArchivoOriginal);
 		
 		panelArchivoCompilado = new JTextPane();
 		JScrollPane jsp = new JScrollPane(panelArchivoCompilado);
 		jsp.setBounds(250, 150, 230, 300);
-		ventanaPrincipal.getContentPane().add(jsp);
+		this.contentPane.add(jsp);
 		
 		direcccionDeInicioField = new JTextField();
 		direcccionDeInicioField.setEnabled(false);
 		direcccionDeInicioField.setText("00");
 		direcccionDeInicioField.setBounds(100, 55, 30, 19);
-		ventanaPrincipal.getContentPane().add(direcccionDeInicioField);
+		this.contentPane.add(direcccionDeInicioField);
 		direcccionDeInicioField.setColumns(10);
 		
 		lblDireccionInicio = new JLabel("Dir Inicio:");
 		lblDireccionInicio.setEnabled(false);
 		lblDireccionInicio.setBounds(20, 55, 70, 15);
-		ventanaPrincipal.getContentPane().add(lblDireccionInicio);
+		this.contentPane.add(lblDireccionInicio);
 		
 		lblCompilado = new JLabel("Compilado");
 		lblCompilado.setEnabled(false);
 		lblCompilado.setBounds(236, 125, 74, 15);
-		ventanaPrincipal.getContentPane().add(lblCompilado);
+		this.contentPane.add(lblCompilado);
 		
 		String [][]a=new String[16][2];
 		for(int i=0;i<16;i++){
@@ -190,41 +195,41 @@ public class OCViewImpl implements OCView{
 		registrosTable.setEnabled(false);
 		JScrollPane jsp2 = new JScrollPane(registrosTable);
 		jsp2.setBounds(496, 170, 150, 280);
-		ventanaPrincipal.getContentPane().add(jsp2);
+		this.contentPane.add(jsp2);
 		
 		JLabel labelBancoDeRegistros = new JLabel("Banco de Registros");
 		labelBancoDeRegistros.setEnabled(false);
 		labelBancoDeRegistros.setBounds(503, 150, 137, 15);
-		ventanaPrincipal.getContentPane().add(labelBancoDeRegistros);
+		this.contentPane.add(labelBancoDeRegistros);
 		
 		botonVerMemoria = new JButton("Ver Memoria");
 		botonVerMemoria.setEnabled(false);
 		botonVerMemoria.setBounds(659, 276, 123, 25);
-		ventanaPrincipal.getContentPane().add(botonVerMemoria);
+		this.contentPane.add(botonVerMemoria);
 		
 		botonSiguiente = new JButton("Siguiente");
 		botonSiguiente.setEnabled(false);
 		botonSiguiente.setBounds(659, 239, 123, 25);
-		ventanaPrincipal.getContentPane().add(botonSiguiente);
+		this.contentPane.add(botonSiguiente);
 		
 		labelPc = new JLabel("PC=");
 		labelPc.setEnabled(false);
 		labelPc.setBounds(659, 174, 113, 19);
-		ventanaPrincipal.getContentPane().add(labelPc);
+		this.contentPane.add(labelPc);
 		
 		labelInstruccion = new JLabel("Intruccion:");
 		labelInstruccion.setEnabled(false);
 		labelInstruccion.setBounds(659, 197, 123, 30);
-		ventanaPrincipal.getContentPane().add(labelInstruccion);
+		this.contentPane.add(labelInstruccion);
 		
 		botonVerAyuda = new JButton("Ayuda");
 		botonVerAyuda.setBounds(659, 386, 123, 25);
-		ventanaPrincipal.getContentPane().add(botonVerAyuda);
+		this.contentPane.add(botonVerAyuda);
 
 		
 		JButton botonSobreMi = new JButton("Sobre Mi");
 		botonSobreMi.setBounds(659, 423, 123, 25);
-		ventanaPrincipal.getContentPane().add(botonSobreMi);
+		this.contentPane.add(botonSobreMi);
 		
 		ventanaMemoria=new JFrame();
 		ventanaMemoria.setTitle("Memoria de OCUNS");
@@ -253,5 +258,9 @@ public class OCViewImpl implements OCView{
 		//ventanaHelp.setVisible(false);
 		//ventanaHelp.setTitle("Ayuda para OCUNS Virtual Machine");
 		//ventanaHelp.setSize(600,500);
+	}
+	@Override
+	public String pedirDialogo(String pedido) {
+		return JOptionPane.showInputDialog(pedido);
 	}
 }

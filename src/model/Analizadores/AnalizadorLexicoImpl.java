@@ -17,12 +17,14 @@ public class AnalizadorLexicoImpl implements AnalizadorLexico {
 	protected static Reglas reglas;
 	
 	public AnalizadorLexicoImpl(Archivo archivo) throws ErrorOCUNS{
+		iniciarConArchivo(archivo);
+		reglas=Reglas.crearInstancia();
+	}
+	public void iniciarConArchivo(Archivo archivo) throws ErrorOCUNS{
 		this.archivo=archivo;
 		numerolinea=0;
-		reglas=Reglas.crearInstancia();
 		recargarLinea();
 	}
-	
 	private Token recargarLinea() throws ErrorOCUNS{
 		indexLine=0;
 		do{

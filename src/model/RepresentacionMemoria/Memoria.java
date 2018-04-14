@@ -12,4 +12,5 @@ public interface Memoria {
 	public void resetearDireccionActual();
 	public int getDireccionInicio();
 	public int getDireccionActual();
+	public void iniciar(int direccionInicio);
 }

@@ -20,11 +20,13 @@ public class OCViewModule {
 	  public OCView openOCWindow(OCController ocController) {
 	    OCViewImpl ocView = new OCViewImpl(ocController,OCModelModule.getInstance().getOCModel());
 
-	    JFrame frame = new JFrame("Update User");
-//	    frame.setContentPane(editUserView.content);
-//	    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-	    frame.pack();
-	    frame.setVisible(true);
+	    JFrame ventanaPrincipal = new JFrame();
+		ventanaPrincipal.setTitle("OCUNS - VirtualMachine");
+		ventanaPrincipal.setContentPane(ocView.contentPane);
+		ventanaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		ventanaPrincipal.pack();
+		ventanaPrincipal.setBounds(50, 50, 800, 520);
+		ventanaPrincipal.setVisible(true);
 
 	    return ocView;
 	  }

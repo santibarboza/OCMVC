@@ -1,18 +1,22 @@
 package model.Ejecucion;
 
 import Utils.Hexadecimal;
+import model.OCModel;
 import model.RepresentacionMemoria.Memoria;
 import Excepciones.ErrorEjecucion;
 
 public class EjecucionImpl implements Ejecucion{
-
+	
+	private OCModel ocModel;
 	private Memoria memoria;
 	private int pc,opcode,pcPAP;
 	private int registroDIndex, registroSIndex, registroTIndex;
 	private int bufferRegistroD,bufferRegistroS,bufferRegistroT;
 	private int addr, offset,desplazamiento;
 
-	
+	public EjecucionImpl(Memoria memoria){
+		this.memoria=memoria;
+	}
 	@Override
 	public void Ejecutar() throws ErrorEjecucion {
 		int instruccion=0;
@@ -233,6 +237,10 @@ public class EjecucionImpl implements Ejecucion{
 		memoria.escribirRegistro(registroDIndex, bufferRegistroD);
 //		output.mostrarRegistros();
 //		output.mostrarMemoria();
+	}
+	@Override
+	public void setModel(OCModel ocModel) {
+		this.ocModel=ocModel;		
 	}
 
 	

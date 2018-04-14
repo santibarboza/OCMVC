@@ -7,12 +7,17 @@ public class MemoriaImpl implements Memoria{
 	protected int registro[];
 	protected int direccionInicio;
 	protected int direccionActual;
-	
+
 	public MemoriaImpl(int direccionInicio){
+		iniciar(direccionInicio);
+	}
+	@Override
+	public void iniciar(int direccionInicio) {
 		this.direccionInicio=direccionInicio;
 		this.direccionActual=direccionInicio;
 		memoria= new int[256];
 		registro= new int[16];
+		resetearRegistros();
 	}
 	@Override
 	public void escribirSiguienteByte(int valor) throws ErrorEjecucion {

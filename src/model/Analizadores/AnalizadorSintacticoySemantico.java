@@ -1,11 +1,12 @@
 package model.Analizadores;
 
+import model.Archivos.Archivo;
 import model.RepresentacionMemoria.Memoria;
 import model.RepresentacionMemoria.TabladeEtiquetas;
 import Excepciones.ErrorOCUNS;
 
 public interface AnalizadorSintacticoySemantico {
-	public void inicial()throws ErrorOCUNS;
+	public void compilar(Archivo archivo,int direccionInicio)throws ErrorOCUNS;
 	public Memoria getMemoria();
 	public TabladeEtiquetas getTablaEtiqueta();
 }

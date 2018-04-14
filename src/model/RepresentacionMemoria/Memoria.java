@@ -3,11 +3,11 @@ package model.RepresentacionMemoria;
 import Excepciones.ErrorEjecucion;
 
 public interface Memoria {
-	public void escribirMemoria(int m) throws ErrorEjecucion;
-	public void escribirMemoria(int dir, int m);
-	public int leerMemoria(int dir);
-	public void escribirRegistro(int nro, int m);
-	public int leerRegistro(int nro);
+	public void escribirSiguienteByte(int valor) throws ErrorEjecucion;
+	public int leerMemoria(int direccion);
+	public void escribirMemoria(int direccion, int valor);
+	public int leerRegistro(int numero);
+	public void escribirRegistro(int numero, int valor);
 	public void resetearRegistros();
 	public void resetearDireccionActual();
 	public int getDireccionInicio();

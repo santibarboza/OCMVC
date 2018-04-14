@@ -1,14 +1,14 @@
 package model;
 
 import model.Analizadores.AnalizadorLexico;
-import model.Analizadores.AnalizadorSintactico;
+import model.Analizadores.AnalizadorSintacticoySemantico;
 
 public class OCModelImpl implements OCModel {
 	private OCModelListener listener;
 	private AnalizadorLexico analizadorLexico;
-	private AnalizadorSintactico analizadorSintactico;
+	private AnalizadorSintacticoySemantico analizadorSintactico;
 		
-	  public OCModelImpl(AnalizadorLexico analizadorLexico,AnalizadorSintactico analizadorSintactico) {
+	  public OCModelImpl(AnalizadorLexico analizadorLexico,AnalizadorSintacticoySemantico analizadorSintactico) {
 		  this.analizadorLexico=analizadorLexico;
 		  this.analizadorSintactico= analizadorSintactico;
 	  }

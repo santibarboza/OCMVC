@@ -3,9 +3,11 @@ package view;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -14,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 
 import model.OCModel;
@@ -43,7 +46,8 @@ public class OCViewImpl implements OCView{
 	private JTable registrosTable,memoryTable;
 	private JLabel lblArchivoOriginal,lblCompilado,lblDireccionInicio;
 	private JLabel nombreArchivoActual,labelPc,labelInstruccion;
-
+	private JFileChooser fileChooser;
+	
 	OCViewImpl(OCController ocController, OCModel ocModel) {
 
 	    this.ocController = ocController;
@@ -105,11 +109,23 @@ public class OCViewImpl implements OCView{
 
 	}
 	public void habilitarOpcionesdeEjecucion(){
-		tipoDeEjecucion.setEnabled(true);
-		botonEjecutar.setEnabled(true);
-		registrosTable.setEnabled(true);
-		botonVerMemoria.setEnabled(true);
+		setearOpcionesdeEjecucion(true);
     }
+	private void setearOpcionesdeEjecucion(boolean condicion){
+		tipoDeEjecucion.setEnabled(condicion);
+		botonEjecutar.setEnabled(condicion);
+		registrosTable.setEnabled(condicion);
+		botonVerMemoria.setEnabled(condicion);
+    }
+	@Override
+	public void habilitarOpcionesdeCompilacion() {
+		setearOpcionesdeEjecucion(false);  
+		botonCompilar.setEnabled(true);
+		direcccionDeInicioField.setEnabled(true);
+		lblDireccionInicio.setEnabled(true);
+		botonSiguiente.setEnabled(false);
+	  	panelArchivoCompilado.setText("");	
+	}
 	private void initialize() {
 		this.contentPane=new JPanel();
 		this.contentPane.setLayout(null);
@@ -258,9 +274,37 @@ public class OCViewImpl implements OCView{
 		//ventanaHelp.setVisible(false);
 		//ventanaHelp.setTitle("Ayuda para OCUNS Virtual Machine");
 		//ventanaHelp.setSize(600,500);
+		fileChooser= new JFileChooser(); 
+		fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos de OCVM","ocuns"));
+		  
 	}
 	@Override
 	public String pedirDialogo(String pedido) {
 		return JOptionPane.showInputDialog(pedido);
+	}
+	@Override
+	public boolean pedirAbrirArchivo() {
+		int opcion = fileChooser.showDialog(null, "Abrir");
+		return (opcion == JFileChooser.APPROVE_OPTION);
+	}
+	@Override
+	public File recuperarArchivo() {
+		return fileChooser.getSelectedFile();
+	}
+	@Override
+	public void mostrarMensajeError(String mensaje) {
+		JOptionPane.showMessageDialog(null, mensaje);
+	}
+	@Override
+	public void updateNombreArchivo(String fileName) {
+		nombreArchivoActual.setText(fileName);
+	}
+	public void updateContenidoArchivoActual(String contenido){
+		  contenidoArchivoActual.setText(contenido);
+		  contenidoArchivoActual.setEnabled(true);
+	}
+	@Override
+	public void updateCodigoCompilado(String codigo) {
+		panelArchivoCompilado.setText(codigo);
 	}
 }

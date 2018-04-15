@@ -14,11 +14,10 @@ public class AnalizadorLexicoImpl implements AnalizadorLexico {
 	protected String lineaLeida;
 	protected int indexLine;
 	protected int numerolinea;
-	protected static Reglas reglas;
+	protected Reglas reglas;
 	
-	public AnalizadorLexicoImpl(Archivo archivo) throws ErrorOCUNS{
-		iniciarConArchivo(archivo);
-		reglas=Reglas.crearInstancia();
+	public AnalizadorLexicoImpl(Reglas reglas){
+		this.reglas=reglas;
 	}
 	public void iniciarConArchivo(Archivo archivo) throws ErrorOCUNS{
 		this.archivo=archivo;
@@ -57,7 +56,7 @@ public class AnalizadorLexicoImpl implements AnalizadorLexico {
 			else if(caracterActual=='/')
 					tokenARetornar= analizarComentarios();
 				else if(esOffsetNegativo())
-						analizarDesplazamientoNegativo();
+						tokenARetornar=analizarDesplazamientoNegativo();
 					else if(esDigito())
 							tokenARetornar= analizarDigito();
 						else if(esRegistro())
@@ -214,5 +213,9 @@ public class AnalizadorLexicoImpl implements AnalizadorLexico {
 		archivo.Close();
 		return new TokenEOF(numerolinea,indexLine);
 	}
+		@Override
+		public Reglas getReglas() {
+			return reglas;
+		}
 
 }

@@ -16,11 +16,15 @@ import Excepciones.ErrorOCUNS;
 		
 		public ArchivoImp(String fileName) throws ErrorOCUNS{
 			this.fileName=fileName;
-			initArchivo();
+			File archivo = new File (fileName);
+			initArchivo(archivo);
 		}
-		private void initArchivo()throws ErrorOCUNS {
+		public ArchivoImp(File file) throws ErrorOCUNS{
+			this.fileName=file.getAbsolutePath();
+			initArchivo(file);
+		}
+		private void initArchivo(File archivo)throws ErrorOCUNS {
 			try{
-				File archivo = new File (fileName);
 				fileReader= new FileReader (archivo);
 				bufferedReader = new BufferedReader(fileReader);
 			}catch(FileNotFoundException e){
@@ -43,6 +47,10 @@ import Excepciones.ErrorOCUNS;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+		@Override
+		public String getName() {
+			return fileName;
 		}
 	}
 

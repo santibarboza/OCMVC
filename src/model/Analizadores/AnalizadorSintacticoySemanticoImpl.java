@@ -20,11 +20,10 @@ public class AnalizadorSintacticoySemanticoImpl implements AnalizadorSintacticoy
 	protected Hashtable<String,String> explicacionDeSimbolos;
 	
 	public AnalizadorSintacticoySemanticoImpl
-				(AnalizadorLexico analizadorLexico,RepresentacionDeLaMemoria representacion) throws ErrorOCUNS{
+				(AnalizadorLexico analizadorLexico,RepresentacionDeLaMemoria representacion){
 		this.analizadorLexico=analizadorLexico;
 		this.tablaDeEtiquetas=representacion.getTablaDeEtiquetas();
 		this.memoria=representacion.getMemoria();
-		this.tokenActual=analizadorLexico.getToken();
 		cargarExplicacionDeSimbolos();
 	}
 	private void cargarExplicacionDeSimbolos() {
@@ -42,8 +41,9 @@ public class AnalizadorSintacticoySemanticoImpl implements AnalizadorSintacticoy
 			explicacionDeSimbolos.put("EOF","el fin de Archivo");
 		}catch(NullPointerException e){}
 	}
-	public void compilar(Archivo archivo,int direccionInicio)throws ErrorOCUNS {
-		iniciarMemoria(archivo,direccionInicio);
+	public void compilar(Archivo archivo,String direccionInicio)throws ErrorOCUNS {
+		iniciarMemoria(archivo,obtenerDireccion(direccionInicio));
+		this.tokenActual=analizadorLexico.getToken();
 		inicial();
 		tablaDeEtiquetas.remplazarEtiquetas(memoria);
 	}
@@ -201,6 +201,20 @@ public class AnalizadorSintacticoySemanticoImpl implements AnalizadorSintacticoy
 	@Override
 	public TabladeEtiquetas getTablaEtiqueta() {
 		return tablaDeEtiquetas;
+	}
+	private int obtenerDireccion(String dirIni) throws ErrorEjecucion {
+		int dirInicio;
+		try{
+			dirInicio=Integer.parseInt(dirIni, 16);
+		}catch(NumberFormatException e){
+			throw new ErrorEjecucion("La direccion de ensamblado es invalida");		
+		}
+		if(dirInicio>255 ||dirInicio<0)
+			throw new ErrorEjecucion("La direccion de ensamblado es invalida");
+		return dirInicio;
+	}
+	public Reglas getReglas(){
+		return analizadorLexico.getReglas();
 	}
 
 }

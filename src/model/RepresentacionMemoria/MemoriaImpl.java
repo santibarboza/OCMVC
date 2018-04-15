@@ -8,8 +8,11 @@ public class MemoriaImpl implements Memoria{
 	protected int direccionInicio;
 	protected int direccionActual;
 
-	public MemoriaImpl(int direccionInicio){
-		iniciar(direccionInicio);
+	public MemoriaImpl(){
+		direccionInicio=0;
+		direccionActual=0;
+		memoria= new int[256];
+		registro= new int[16];
 	}
 	@Override
 	public void iniciar(int direccionInicio) {

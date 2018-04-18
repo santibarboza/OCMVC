@@ -7,7 +7,7 @@ import Excepciones.ErrorEjecucion;
 
 public class EjecucionImpl implements Ejecucion{
 	
-	//private OCModel ocModel;
+	private OCModel ocModel;
 	private Memoria memoria;
 	private int pc,opcode,pcPAP;
 	private int registroDIndex, registroSIndex, registroTIndex;
@@ -240,7 +240,7 @@ public class EjecucionImpl implements Ejecucion{
 	}
 	@Override
 	public void setModel(OCModel ocModel) {
-	//	this.ocModel=ocModel;		
+		this.ocModel=ocModel;		
 	}
 
 	

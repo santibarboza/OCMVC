@@ -1,9 +1,8 @@
 package view;
 
 import javax.swing.JFrame;
+import presenter.OCPresenter;
 
-import model.OCModelModule;
-import controller.OCController;
 
 public class OCViewModule {
 	  private static OCViewModule instance;
@@ -17,8 +16,8 @@ public class OCViewModule {
 	    return instance;
 	  }
 
-	  public OCView openOCWindow(OCController ocController) {
-	    OCViewImpl ocView = new OCViewImpl(ocController,OCModelModule.getInstance().getOCModel());
+	  public OCView openOCWindow(OCPresenter ocPresenter) {
+	    OCViewImpl ocView = new OCViewImpl(ocPresenter);
 
 	    JFrame ventanaPrincipal = new JFrame();
 		ventanaPrincipal.setTitle("OCUNS - VirtualMachine");

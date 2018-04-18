@@ -1,4 +1,4 @@
-package controller;
+package presenter;
 
 import Excepciones.ErrorOCUNS;
 import view.OCView;
@@ -6,41 +6,18 @@ import model.OCModel;
 import model.Archivos.Archivo;
 import model.Archivos.ArchivoAbstractFactory;
 
-public class OCControllerImpl implements OCController {
+public class OCPresenterImpl implements OCPresenter {
 
-		  private OCModel ocModel;
-		  private OCView ocView;
-		  private Archivo archivoActual;
-
-		  OCControllerImpl(OCModel ocModel) {
-		    this.ocModel = ocModel;
-		  }
-
-		  public void onEventUpdate(String name, String lastName) {
-
-			 /*
-			ocView.updateProgress(0);
-
-		    new Thread(new Runnable() {
-		      @Override public void run() {
-		        for (int i = 0; i<=100; i++) {
-		          try {
-		            Thread.sleep(25);
-		          } catch (InterruptedException e) {
-		            e.printStackTrace();
-		          }
-		          ocView.updateProgress(i);
-		        }
-		        ocModel.updateUser(name, lastName);
-		      }
-		    }).start();
-			*/
-		  }
-
-		  public void setOCView(OCView ocView) {
-		    this.ocView = ocView;
-		  }
-
+		private OCModel ocModel;
+		private OCView ocView;
+		private Archivo archivoActual;
+		
+		OCPresenterImpl(OCModel ocModel) {
+			this.ocModel = ocModel;
+		}
+		public void setOCView(OCView ocView) {
+			this.ocView = ocView;
+		}
 		@Override
 		public void onEventAbrirArchivo() {
 			if(ocView.pedirAbrirArchivo()){
@@ -57,51 +34,48 @@ public class OCControllerImpl implements OCController {
 				ArchivoAbstractFactory maker= ocModel.getCreadorArchivo();
 				archivoActual=maker.crearArchivo(ocView.recuperarArchivo());
 			}catch(ErrorOCUNS error){
-				ocView.mostrarMensajeError(error.getMessage());
+				ocView.mostrarMensaje(error.getMessage());
 			}
 		}
-
 		private void updateContenidoArchivoActual(String fileName) {
 			try{
 				ocView.updateContenidoArchivoActual(ocModel.getCreadorArchivo().cat(fileName));
 			}catch(ErrorOCUNS error){
-				ocView.mostrarMensajeError(error.getMessage());
+				ocView.mostrarMensaje(error.getMessage());
 			}
 		}
-
 		@Override
 		public void onEventCompilar(String direccionInicio) {
 			updateArchivoActual();
 			if(ocModel.compilaElArchivo(archivoActual, direccionInicio)){
 				ocView.habilitarOpcionesdeEjecucion();
 				ocView.updateCodigoCompilado(ocModel.obtenerCodigoCompilado());
-				ocView.mostrarMensajeError("El Archivo se compilo correctamente");
+				ocView.mostrarMensaje("El Archivo se compilo correctamente");
 			}
 		}
-
 		@Override
 		public void onEventEjecutar() {
 			
 		}
-
 		@Override
 		public void onEventVerMemoria() {
 			
 		}
-
 		@Override
 		public void onEventSiguientePaso() {
 			
 		}
-
 		@Override
 		public void onEventVerAyuda() {
 			
 		}
-
+		//Funciones Model->View
+		@Override
+		public void mostrarMensaje(String mensaje) {
+			ocView.mostrarMensaje(mensaje);
+		}
 		@Override
 		public String pedirDialogo(String pedido) {
 			return ocView.pedirDialogo(pedido);
 		}
-		
 }

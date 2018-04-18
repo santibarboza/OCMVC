@@ -1,37 +1,34 @@
 package model;
 
+import presenter.OCPresenter;
 import Utils.Hexadecimal;
 import Excepciones.ErrorOCUNS;
 import model.Analizadores.AnalizadorLexico;
 import model.Analizadores.AnalizadorSintacticoySemantico;
 import model.Archivos.Archivo;
 import model.Archivos.ArchivoAbstractFactory;
+import model.Ejecucion.Ejecucion;
 import model.RepresentacionMemoria.Memoria;
 
 public class OCModelImpl implements OCModel {
-	private OCModelListener listener;
-	//private AnalizadorLexico analizadorLexico;
+	private OCPresenter ocPresenter;
 	private AnalizadorSintacticoySemantico analizadorSintactico;
 	private ArchivoAbstractFactory creadorArchivo;
+	private Ejecucion ejecucion;
 
 		
 	  public OCModelImpl(AnalizadorLexico analizadorLexico,AnalizadorSintacticoySemantico analizadorSintactico,
-			  ArchivoAbstractFactory creadorArchivo) {
+			  ArchivoAbstractFactory creadorArchivo, Ejecucion ejecucion) {
 		  //this.analizadorLexico=analizadorLexico;
 		  this.analizadorSintactico= analizadorSintactico;
 		  this.creadorArchivo=creadorArchivo;
+		  this.ejecucion=ejecucion;
 	  }
 	
-	  public void setListener(OCModelListener listener) {
-	    this.listener = listener;
+	  public void setOCPresenter(OCPresenter ocPresenter) {
+	    this.ocPresenter = ocPresenter;
 	  }
 	
-	/* private void notifyListener() {
-	    if (listener != null) {
-	      listener.didUpdateModel();
-	    }
-	}*/
-
 	@Override
 	public boolean compilaElArchivo(Archivo archivo, String DireccionInicio) {
 		try {
@@ -42,24 +39,10 @@ public class OCModelImpl implements OCModel {
 		}
 		return true;
 	}
-
-	@Override
-	public void mostrarMensaje(String mensaje) {
-		if (listener != null) {
-		      listener.mostrarMensaje(mensaje);
-		}
-	}
-
-	@Override
-	public String pedirDialogo(String pedido) {
-		return "03";
-	}
-
 	@Override
 	public ArchivoAbstractFactory getCreadorArchivo() {
 		return creadorArchivo;
 	}
-
 	@Override
 	public String obtenerCodigoCompilado() {
 		Memoria memoria=analizadorSintactico.getMemoria();
@@ -74,11 +57,9 @@ public class OCModelImpl implements OCModel {
 		codigoCompilado+="\n";
 		return codigoCompilado;
 	}
-
 	private String codificarInstruccion(Memoria memoria,int pc) {
 		return "|| "+(mostrarInstruccion(memoria,pc));
 	}
-
 	private String mostrarInstruccion(Memoria memoria,int pc) {
 		int opcode=memoria.leerMemoria(pc)/16;
 		int registroD=memoria.leerMemoria(pc)%16;
@@ -180,5 +161,12 @@ public class OCModelImpl implements OCModel {
 		return Hexadecimal.hex2Dig(memoria.leerMemoria(pc))+Hexadecimal.hex2Dig(memoria.leerMemoria(pc+1));
 	}
 
-	
+	@Override
+	public void mostrarMensaje(String mensaje) {
+		ocPresenter.mostrarMensaje(mensaje);
+	}
+	@Override
+	public String pedirDialogo(String pedido) {
+		return ocPresenter.pedirDialogo(pedido);
+	}
 }

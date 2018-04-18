@@ -9,7 +9,7 @@ public interface OCView {
 	public void updateCodigoCompilado(String codigo);
 	public void habilitarOpcionesdeEjecucion();
 	public void habilitarOpcionesdeCompilacion();
-	public void mostrarMensajeError(String mensaje);
+	public void mostrarMensaje(String mensaje);
 	public String pedirDialogo(String pedido);
 	public boolean pedirAbrirArchivo();
 	public File recuperarArchivo();

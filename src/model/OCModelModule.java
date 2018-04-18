@@ -7,6 +7,8 @@ import model.Analizadores.AnalizadorSintacticoySemanticoImpl;
 import model.Analizadores.ReglasImpl;
 import model.Archivos.ArchivoAbstractFactory;
 import model.Archivos.ArchivoConcreteFactory;
+import model.Ejecucion.Ejecucion;
+import model.Ejecucion.EjecucionImpl;
 import model.RepresentacionMemoria.Memoria;
 import model.RepresentacionMemoria.MemoriaImpl;
 import model.RepresentacionMemoria.RepresentacionDeLaMemoria;
@@ -27,8 +29,10 @@ public class OCModelModule {
 		AnalizadorSintacticoySemantico analizadorSintacticoySemantico=
 				new AnalizadorSintacticoySemanticoImpl(analizadorLexico,representacion);
 		ArchivoAbstractFactory archivosFactory= new ArchivoConcreteFactory();
+		Ejecucion ejecucion=new EjecucionImpl(memoria);
 	    ocModel =  new OCModelImpl(analizadorLexico,
-	    		analizadorSintacticoySemantico,archivosFactory);
+	    		analizadorSintacticoySemantico,archivosFactory,ejecucion);
+	    ejecucion.setModel(ocModel);
 	  }
 
 	  public static OCModelModule getInstance() {

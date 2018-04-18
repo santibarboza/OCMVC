@@ -18,14 +18,12 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import presenter.OCPresenter;
 
-import model.OCModel;
-import model.OCModelListener;
-import controller.OCController;
+
 
 public class OCViewImpl implements OCView{
-	private OCController ocController;
-	private OCModel ocModel;
+	private OCPresenter ocController;
 	
 	//private JFrame ventanaPrincipal;
 	private JFrame ventanaMemoria;
@@ -48,10 +46,9 @@ public class OCViewImpl implements OCView{
 	private JLabel nombreArchivoActual,labelPc,labelInstruccion;
 	private JFileChooser fileChooser;
 	
-	OCViewImpl(OCController ocController, OCModel ocModel) {
+	OCViewImpl(OCPresenter ocController) {
 
 	    this.ocController = ocController;
-	    this.ocModel = ocModel;
 
 	    initialize();
 	    initListeners();
@@ -63,17 +60,11 @@ public class OCViewImpl implements OCView{
 	public void updateTextoTutorial(String texto){
 		this.textoTutorial.setText(texto);
 	}
+	@Override
+	public void mostrarMensaje(String mensaje) {
+		JOptionPane.showMessageDialog(null, mensaje);
+	}
 	private void initListeners() {
-	    ocModel.setListener(new OCModelListener() {
-			@Override
-			public void didUpdateModel() {
-				
-			}
-			@Override
-			public void mostrarMensaje(String mensaje) {
-				JOptionPane.showMessageDialog(null, mensaje);
-			}
-	    });
 	    
 		botonAbrirArchivo.addActionListener(new ActionListener() {
 	      public void actionPerformed(ActionEvent e) {
@@ -290,10 +281,6 @@ public class OCViewImpl implements OCView{
 	@Override
 	public File recuperarArchivo() {
 		return fileChooser.getSelectedFile();
-	}
-	@Override
-	public void mostrarMensajeError(String mensaje) {
-		JOptionPane.showMessageDialog(null, mensaje);
 	}
 	@Override
 	public void updateNombreArchivo(String fileName) {

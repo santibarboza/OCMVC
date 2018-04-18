@@ -69,7 +69,7 @@ public class OCPresenterImpl implements OCPresenter {
 		}
 		@Override
 		public void onEventVerMemoria() {
-			
+			ocView.mostrarMemoria();
 		}
 		@Override
 		public void onEventSiguientePaso() {
@@ -84,7 +84,7 @@ public class OCPresenterImpl implements OCPresenter {
 		}
 		@Override
 		public void onEventVerAyuda() {
-			
+			ocView.mostrarAyuda();
 		}
 		//Funciones Model->View
 		@Override

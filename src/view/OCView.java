@@ -15,6 +15,8 @@ public interface OCView {
 	public void habilitarOpcionesdeEjecucionPasoaPaso();
 	public void deshabilitarOpcionesdeEjecucionPasoaPaso();
 	public void habilitarOpcionesdeCompilacion();
+	public void mostrarMemoria();
+	public void mostrarAyuda();
 	public void mostrarMensaje(String mensaje);
 	public String pedirDialogo(String pedido);
 	public boolean pedirAbrirArchivo();

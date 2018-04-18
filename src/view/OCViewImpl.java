@@ -20,6 +20,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 import presenter.OCPresenter;
+import view.help.VentanaHelp;
 
 
 
@@ -28,7 +29,7 @@ public class OCViewImpl implements OCView{
 	
 	//private JFrame ventanaPrincipal;
 	private JFrame ventanaMemoria;
-	//private JFrame ventanaHelp;
+	private JFrame ventanaHelp;
 	protected JPanel contentPane;
 	private JButton botonAbrirArchivo; 
 	private JButton botonVerAyuda;
@@ -267,10 +268,10 @@ public class OCViewImpl implements OCView{
 		jsp3.setBounds(0, 0, 150, 490);
 		ventanaMemoria.getContentPane().add(jsp3);
 		
-		//ventanaHelp = new VentanaHelp();
-		//ventanaHelp.setVisible(false);
-		//ventanaHelp.setTitle("Ayuda para OCUNS Virtual Machine");
-		//ventanaHelp.setSize(600,500);
+		ventanaHelp = new VentanaHelp();
+		ventanaHelp.setVisible(false);
+		ventanaHelp.setTitle("Ayuda para OCUNS Virtual Machine");
+		ventanaHelp.setSize(600,500);
 		fileChooser= new JFileChooser(); 
 		fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos de OCVM","ocuns"));
 		  
@@ -327,5 +328,13 @@ public class OCViewImpl implements OCView{
 	@Override
 	public void updateInstrucionView(String instruccion) {
 		labelInstruccion.setText("Intruccion:\n\n "+instruccion);
+	}
+	@Override
+	public void mostrarMemoria() {
+		ventanaMemoria.setVisible(true);
+	}
+	@Override
+	public void mostrarAyuda() {
+		ventanaHelp.setVisible(true);
 	}
 }

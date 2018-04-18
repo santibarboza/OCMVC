@@ -29,8 +29,6 @@ public class OCViewImpl implements OCView{
 	private JFrame ventanaMemoria;
 	//private JFrame ventanaHelp;
 	protected JPanel contentPane;
-	
-//	private String direccionInicio;
 	private JButton botonAbrirArchivo; 
 	private JButton botonVerAyuda;
 	private JButton botonVerMemoria;

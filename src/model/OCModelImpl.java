@@ -2,6 +2,7 @@ package model;
 
 import presenter.OCPresenter;
 import Utils.Hexadecimal;
+import Excepciones.ErrorEjecucion;
 import Excepciones.ErrorOCUNS;
 import model.Analizadores.AnalizadorLexico;
 import model.Analizadores.AnalizadorSintacticoySemantico;
@@ -168,5 +169,20 @@ public class OCModelImpl implements OCModel {
 	@Override
 	public String pedirDialogo(String pedido) {
 		return ocPresenter.pedirDialogo(pedido);
+	}
+
+	@Override
+	public void ejecutarCodigoCompleto() throws ErrorEjecucion {
+		ejecucion.Ejecutar();
+	}
+
+	@Override
+	public boolean habilitarEjecucionPasoaPaso() throws ErrorEjecucion {
+		return ejecucion.ejecutarPaP();
+	}
+
+	@Override
+	public boolean ejecutarSiguienteIntruccion() throws ErrorEjecucion {
+		return ejecucion.pasoAdelante();
 	}
 }

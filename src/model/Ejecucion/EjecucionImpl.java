@@ -170,15 +170,8 @@ public class EjecucionImpl implements Ejecucion{
 		desplazamiento=(bufferRegistroS+Hexadecimal.comp(offset));
 		if(desplazamiento==255){
 			try{
-/**
-				
-				
-				String ax=output.pedirDialogo("Ingrese un numero de 00 a FF:");
+				String ax=ocModel.pedirDialogo("Ingrese un numero de 00 a FF:");
 				bufferRegistroD=Integer.parseInt(ax, 16);
-				
-**/				
-				
-				
 				}catch(NumberFormatException e){
 					throw new ErrorEjecucion("El numero ingresado no es valido");		
 				}
@@ -191,14 +184,10 @@ public class EjecucionImpl implements Ejecucion{
 	}
 	private void realizarStore() {
 		desplazamiento=bufferRegistroD+Hexadecimal.comp(offset);
-/***
 		if(desplazamiento==0xFF)
-			output.mostrarMensaje(" Salida =  "+Hexadecimal.hex2(bufferRegistroS)+" = ("+Hexadecimal.comp(bufferRegistroS)+")d");
+			ocModel.mostrarMensaje(" Salida =  "+Hexadecimal.hex2(bufferRegistroS)+" = ("+Hexadecimal.comp(bufferRegistroS)+")d");
 		else
 			memoria.escribirMemoria(desplazamiento, bufferRegistroS);
-****/
-	
-	
 	}
 	private void realizarLda() {
 		bufferRegistroD=addr;

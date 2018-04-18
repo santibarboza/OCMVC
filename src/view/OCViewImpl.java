@@ -322,10 +322,10 @@ public class OCViewImpl implements OCView{
 	}
 	@Override
 	public void updatePCView(String pc) {
-		labelPc.setText("PC="+pc);
+		labelPc.setText("PC:"+pc);
 	}
 	@Override
 	public void updateInstrucionView(String instruccion) {
-		labelInstruccion.setText("Intruccion:\n"+instruccion);
+		labelInstruccion.setText("Intruccion:\n\n "+instruccion);
 	}
 }

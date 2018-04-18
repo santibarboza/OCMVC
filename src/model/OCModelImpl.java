@@ -34,6 +34,8 @@ public class OCModelImpl implements OCModel {
 	public boolean compilaElArchivo(Archivo archivo, String DireccionInicio) {
 		try {
 			analizadorSintactico.compilar(archivo, DireccionInicio);
+			this.updateMemoria();
+			this.updateRegistros();
 		} catch (ErrorOCUNS e) {
 			mostrarMensaje(e.getMessage());
 			return false;
@@ -198,7 +200,7 @@ public class OCModelImpl implements OCModel {
 			registros[i][0]=cargarNombreRegistro(i);
 			registros[i][1]=cargarContenidoRegistro(i);
 		}
-		
+		ocPresenter.updateRegistros(registros);
 	}
 
 
@@ -221,16 +223,28 @@ public class OCModelImpl implements OCModel {
 
 	@Override
 	public void updateMemoria() {
-		
+		String [][] memoria=new String [256][2];
+		for(int i=0;i<16;i++){
+			memoria[i][0]=cargarIndiceMemoria(i);
+			memoria[i][1]=cargarContenidoMemoria(i);
+		}	
+		ocPresenter.updateMemoria(memoria);
 	}
-
+	private String cargarContenidoMemoria(int i) {
+		Memoria memoria=ejecucion.getMemoria();
+		return Hexadecimal.hex2Dig(memoria.leerMemoria(i));
+	}
+	private String cargarIndiceMemoria(int i) {
+		return Hexadecimal.hex2Dig(i);
+	}
 	@Override
 	public void updatePCView(String pc) {
-		
+		ocPresenter.updatePCView(pc);
 	}
 
 	@Override
-	public void updateInstrucionView(String instruccion) {
-		
+	public void updateInstrucionView(Memoria memoria,int pc) {
+		String instruccion=mostrarInstruccion(memoria,pc);
+		ocPresenter.updateInstrucionView(instruccion);
 	}
 }

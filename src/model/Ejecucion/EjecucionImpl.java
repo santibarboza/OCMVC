@@ -53,9 +53,9 @@ public class EjecucionImpl implements Ejecucion{
 	}
 	private int fetch(){
 		int instruccion =(memoria.leerMemoria(pc) << 8)+ memoria.leerMemoria(pc+1);
-	//	output.actualizarVisualIntruccion(pc);
 		pc = (pc + 2) & 255;
-	//	output.actualizarPCVisual(pc);
+		ocModel.updatePCView(pc+"");
+		ocModel.updateInstrucionView(memoria,pc);
 		return instruccion;	
 	}
 	private void decode(int instruccion) throws ErrorEjecucion{	
@@ -195,21 +195,21 @@ public class EjecucionImpl implements Ejecucion{
 	private void realizarJumpZero() {
 		if(bufferRegistroD==0)
 			pc=pc+Hexadecimal.comp(addr);
-//		output.actualizarPCVisual(pc);
+		ocModel.updatePCView(pc+"");
 	}
 	private void realizarJumpGreater() {
 		if(Hexadecimal.comp(bufferRegistroD)>0)
 			pc=pc+Hexadecimal.comp(addr);
-//		output.actualizarPCVisual(pc);
+		ocModel.updatePCView(pc+"");
 	}
 	private void realizarCall() {
 		bufferRegistroD=pc;
 		pc=addr;
-//		output.actualizarPCVisual(pc);	
+		ocModel.updatePCView(pc+"");
 	}
 	private void realizarJump() {
 		pc=bufferRegistroD;
-//		output.actualizarPCVisual(pc);
+		ocModel.updatePCView(pc+"");
 	}
 	private void realizarInc() {
 		bufferRegistroD=(Hexadecimal.comp(bufferRegistroD)+1) & 255;
@@ -224,8 +224,8 @@ public class EjecucionImpl implements Ejecucion{
 	private void writeBack() {
 		bufferRegistroD=bufferRegistroD&255;
 		memoria.escribirRegistro(registroDIndex, bufferRegistroD);
-//		output.mostrarRegistros();
-//		output.mostrarMemoria();
+		ocModel.updateMemoria();
+		ocModel.updateRegistros();
 	}
 	@Override
 	public void setModel(OCModel ocModel) {

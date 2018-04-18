@@ -4,6 +4,7 @@ import Excepciones.ErrorEjecucion;
 import presenter.OCPresenter;
 import model.Archivos.Archivo;
 import model.Archivos.ArchivoAbstractFactory;
+import model.RepresentacionMemoria.Memoria;
 
 public interface OCModel {
 	public ArchivoAbstractFactory getCreadorArchivo();
@@ -19,5 +20,5 @@ public interface OCModel {
 	public void updateRegistros();
 	public void updateMemoria();
 	public void updatePCView(String pc);
-	public void updateInstrucionView(String instruccion);
+	public void updateInstrucionView(Memoria memoria,int pc);
 }

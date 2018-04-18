@@ -13,12 +13,13 @@ public class EjecucionImpl implements Ejecucion{
 	private int registroDIndex, registroSIndex, registroTIndex;
 	private int bufferRegistroD,bufferRegistroS,bufferRegistroT;
 	private int addr, offset,desplazamiento;
+	private boolean noTerminoPrograma;
 
 	public EjecucionImpl(Memoria memoria){
 		this.memoria=memoria;
 	}
 	@Override
-	public void Ejecutar() throws ErrorEjecucion {
+	public void ejecutarCodigoCompleto() throws ErrorEjecucion {
 		int instruccion=0;
 		boolean noTermina=true;
 		
@@ -31,21 +32,20 @@ public class EjecucionImpl implements Ejecucion{
 		}
 	}
 	@Override
-	public boolean ejecutarPaP() throws ErrorEjecucion {
+	public void iniciarEjecucionPasoaPaso() throws ErrorEjecucion {
 		pcPAP=memoria.getDireccionInicio();
-		return pasoAdelante();
+		noTerminoPrograma=true;
+		ejecutarSiguienteInstruccion();
 	}
 	@Override
-	public boolean pasoAdelante() throws ErrorEjecucion {
-		boolean hayOtroPaso=true;
+	public void ejecutarSiguienteInstruccion() throws ErrorEjecucion {
 		int instruccion=0;
 		pc= pcPAP;
 		instruccion=fetch();
 		decode(instruccion);
-		hayOtroPaso=execute();
+		noTerminoPrograma=execute();
 		writeBack();
 		pcPAP=pc;
-		return hayOtroPaso;
 	}
 	
 	private void iniciarPC() {
@@ -230,6 +230,14 @@ public class EjecucionImpl implements Ejecucion{
 	@Override
 	public void setModel(OCModel ocModel) {
 		this.ocModel=ocModel;		
+	}
+	@Override
+	public boolean hayCodigoParaEjecutar() {
+		return noTerminoPrograma;
+	}
+	@Override
+	public Memoria getMemoria() {
+		return memoria;
 	}
 
 	

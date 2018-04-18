@@ -1,5 +1,6 @@
 package presenter;
 
+import Excepciones.ErrorEjecucion;
 import Excepciones.ErrorOCUNS;
 import view.OCView;
 import model.OCModel;
@@ -54,8 +55,17 @@ public class OCPresenterImpl implements OCPresenter {
 			}
 		}
 		@Override
-		public void onEventEjecutar() {
-			
+		public void onEventEjecutar(boolean esEjecucionTotal) {
+			try {
+				if(esEjecucionTotal)
+					ocModel.ejecutarCodigoCompleto();
+				else{
+					ocModel.habilitarEjecucionPasoaPaso();
+					ocView.habilitarOpcionesdeEjecucionPasoaPaso();
+				}
+			} catch (ErrorEjecucion e) {
+				ocView.mostrarMensaje(e.getMessage());
+			}
 		}
 		@Override
 		public void onEventVerMemoria() {
@@ -63,7 +73,14 @@ public class OCPresenterImpl implements OCPresenter {
 		}
 		@Override
 		public void onEventSiguientePaso() {
-			
+			try {
+				if(ocModel.hayCodigoParaEjecutar())
+					ocModel.ejecutarSiguienteIntruccion();
+				else
+					ocView.deshabilitarOpcionesdeEjecucionPasoaPaso();
+			} catch (ErrorEjecucion e) {
+				ocView.mostrarMensaje(e.getMessage());
+			}
 		}
 		@Override
 		public void onEventVerAyuda() {
@@ -77,5 +94,21 @@ public class OCPresenterImpl implements OCPresenter {
 		@Override
 		public String pedirDialogo(String pedido) {
 			return ocView.pedirDialogo(pedido);
+		}
+		@Override
+		public void updateRegistros(String[][] registros) {
+			ocView.updateRegistros(registros);
+		}
+		@Override
+		public void updateMemoria(String[][] memoria) {
+			ocView.updateMemoria(memoria);
+		}
+		@Override
+		public void updatePCView(String pc) {
+			ocView.updatePCView(pc);
+		}
+		@Override
+		public void updateInstrucionView(String instruccion) {
+			ocView.updateInstrucionView(instruccion);			
 		}
 }

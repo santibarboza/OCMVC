@@ -1,5 +1,6 @@
 package model;
 
+
 import presenter.OCPresenter;
 import Utils.Hexadecimal;
 import Excepciones.ErrorEjecucion;
@@ -20,7 +21,6 @@ public class OCModelImpl implements OCModel {
 		
 	  public OCModelImpl(AnalizadorLexico analizadorLexico,AnalizadorSintacticoySemantico analizadorSintactico,
 			  ArchivoAbstractFactory creadorArchivo, Ejecucion ejecucion) {
-		  //this.analizadorLexico=analizadorLexico;
 		  this.analizadorSintactico= analizadorSintactico;
 		  this.creadorArchivo=creadorArchivo;
 		  this.ejecucion=ejecucion;
@@ -173,16 +173,64 @@ public class OCModelImpl implements OCModel {
 
 	@Override
 	public void ejecutarCodigoCompleto() throws ErrorEjecucion {
-		ejecucion.Ejecutar();
+		ejecucion.ejecutarCodigoCompleto();
 	}
 
 	@Override
-	public boolean habilitarEjecucionPasoaPaso() throws ErrorEjecucion {
-		return ejecucion.ejecutarPaP();
+	public void habilitarEjecucionPasoaPaso() throws ErrorEjecucion {
+		ejecucion.iniciarEjecucionPasoaPaso();
 	}
 
 	@Override
-	public boolean ejecutarSiguienteIntruccion() throws ErrorEjecucion {
-		return ejecucion.pasoAdelante();
+	public void ejecutarSiguienteIntruccion() throws ErrorEjecucion {
+		ejecucion.ejecutarSiguienteInstruccion();
+	}
+
+	@Override
+	public boolean hayCodigoParaEjecutar() {
+		return ejecucion.hayCodigoParaEjecutar();
+	}
+
+	@Override
+	public void updateRegistros() {
+		String [][] registros=new String [16][2];
+		for(int i=0;i<16;i++){
+			registros[i][0]=cargarNombreRegistro(i);
+			registros[i][1]=cargarContenidoRegistro(i);
+		}
+		
+	}
+
+
+	private String cargarNombreRegistro(int i) {
+		return "R"+Hexadecimal.hex(i);
+	}
+	private String cargarContenidoRegistro(int i) {
+		Memoria memoria=ejecucion.getMemoria();
+		String contenido="";
+		int valor=memoria.leerRegistro(i);
+		if(tieneUnDigitoHexa(valor))
+			contenido+="0";
+		contenido+=Hexadecimal.hex(valor);
+		return contenido;
+	}
+
+	private boolean tieneUnDigitoHexa(int valor) {
+		return valor<16;
+	}
+
+	@Override
+	public void updateMemoria() {
+		
+	}
+
+	@Override
+	public void updatePCView(String pc) {
+		
+	}
+
+	@Override
+	public void updateInstrucionView(String instruccion) {
+		
 	}
 }

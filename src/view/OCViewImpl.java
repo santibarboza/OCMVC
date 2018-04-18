@@ -17,6 +17,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 
 import presenter.OCPresenter;
 
@@ -50,10 +51,6 @@ public class OCViewImpl implements OCView{
 
 	    initialize();
 	    initListeners();
-	    updateView();
-	}
-	private void updateView() {
-		
 	}
 	public void updateTextoTutorial(String texto){
 		this.textoTutorial.setText(texto);
@@ -77,8 +74,11 @@ public class OCViewImpl implements OCView{
 		});
 		botonEjecutar.addActionListener(new ActionListener() {
 	      public void actionPerformed(ActionEvent e) {
-	    	  ocController.onEventEjecutar();
+	    	  ocController.onEventEjecutar(esTipoEjecucionTotal());
     	  }
+	      private boolean esTipoEjecucionTotal() {
+			return tipoDeEjecucion.getSelectedIndex()==0;
+	      }
 		});		
 		botonVerMemoria.addActionListener(new ActionListener() {
 	      public void actionPerformed(ActionEvent e) {
@@ -114,6 +114,14 @@ public class OCViewImpl implements OCView{
 		lblDireccionInicio.setEnabled(true);
 		botonSiguiente.setEnabled(false);
 	  	panelArchivoCompilado.setText("");	
+	}
+	@Override
+	public void habilitarOpcionesdeEjecucionPasoaPaso() {
+		botonSiguiente.setEnabled(true);
+	}
+	@Override
+	public void deshabilitarOpcionesdeEjecucionPasoaPaso() {
+		botonSiguiente.setEnabled(false);
 	}
 	private void initialize() {
 		this.contentPane=new JPanel();
@@ -291,5 +299,33 @@ public class OCViewImpl implements OCView{
 	@Override
 	public void updateCodigoCompilado(String codigo) {
 		panelArchivoCompilado.setText(codigo);
+	}
+	@Override
+	public void updateRegistros(String[][] registros) {
+		String[] titulos = {"Registro","Contenido"};
+		DefaultTableModel m=new DefaultTableModel(null,titulos);
+		
+		for(int i=0;i<registros.length;i++)
+			m.addRow(registros[i]);
+		
+		registrosTable.setModel(m);
+	}
+	@Override
+	public void updateMemoria(String[][] memoria) {
+		String[] titulos = {"Dir","Memoria"};
+		DefaultTableModel m=new DefaultTableModel(null,titulos);
+		
+		for(int i=0;i<memoria.length;i++){
+			m.addRow(memoria[i]);
+		}
+		memoryTable.setModel(m);
+	}
+	@Override
+	public void updatePCView(String pc) {
+		labelPc.setText("PC="+pc);
+	}
+	@Override
+	public void updateInstrucionView(String instruccion) {
+		labelInstruccion.setText("Intruccion:\n"+instruccion);
 	}
 }

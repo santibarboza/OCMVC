@@ -6,10 +6,14 @@ public interface OCPresenter {
 	public void setOCView(OCView ocView);
 	public void onEventAbrirArchivo();
 	public void onEventCompilar(String direccionInicio);
-	public void onEventEjecutar();
+	public void onEventEjecutar(boolean esEjecucionTotal);
 	public void onEventVerMemoria();
 	public void onEventSiguientePaso();
 	public void onEventVerAyuda();
 	public void mostrarMensaje(String mensaje);
 	public String pedirDialogo(String pedido);
+	public void updateRegistros(String[][] registros);
+	public void updateMemoria(String[][] memoria);
+	public void updatePCView(String pc);
+	public void updateInstrucionView(String instruccion);
 }

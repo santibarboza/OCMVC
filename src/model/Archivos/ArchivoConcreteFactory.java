@@ -25,5 +25,10 @@ public class ArchivoConcreteFactory implements ArchivoAbstractFactory {
 		archivo.Close();
 		return retorno;
 	}
+
+	@Override
+	public Archivo crearArchivo(String filename, String contenido){
+		return new ArchivoCacheImp(filename,contenido);
+	}
 	
 }

@@ -37,6 +37,7 @@ public class OCViewImpl implements OCView{
 	private JButton botonCompilar;
 	private JButton botonSiguiente;
 	private JButton botonEjecutar;
+	private JButton botonGuardarPanel;
 	private JComboBox<String> tipoDeEjecucion;
 	private TextArea contenidoArchivoActual;
 	private JTextPane panelArchivoCompilado;
@@ -69,8 +70,9 @@ public class OCViewImpl implements OCView{
 		});
 		botonCompilar.addActionListener(new ActionListener() {
 	      public void actionPerformed(ActionEvent e) {
-	  //  	  direccionInicio=direcccionDeInicioField.getText();
-	    	  ocController.onEventCompilar(direcccionDeInicioField.getText());
+	    	  String direccion=direcccionDeInicioField.getText();
+	    	  String contenido=contenidoArchivoActual.getText();
+	    	  ocController.onEventCompilar(contenido,direccion);
     	  }
 		});
 		botonEjecutar.addActionListener(new ActionListener() {
@@ -96,6 +98,11 @@ public class OCViewImpl implements OCView{
 	    	  ocController.onEventVerAyuda();
     	  }
 		});	
+		botonGuardarPanel.addActionListener(new ActionListener() {
+		      public void actionPerformed(ActionEvent e) {
+//		    	  ocController.onEventCargarDesdePanel(contenidoArchivoActual.getText(),direcccionDeInicioField.getText());
+	    	  }
+			});	
 
 	}
 	public void habilitarOpcionesdeEjecucion(){
@@ -167,8 +174,8 @@ public class OCViewImpl implements OCView{
 		this.contentPane.add(tipoDeEjecucion);
 		
 		contenidoArchivoActual = new TextArea();
-		contenidoArchivoActual.setEnabled(false);
-		contenidoArchivoActual.setEditable(false);
+		contenidoArchivoActual.setEnabled(true);
+		contenidoArchivoActual.setEditable(true);
 		contenidoArchivoActual.setBounds(30, 150, 200, 300);
 		this.contentPane.add(contenidoArchivoActual);
 		
@@ -185,13 +192,13 @@ public class OCViewImpl implements OCView{
 		direcccionDeInicioField = new JTextField();
 		direcccionDeInicioField.setEnabled(false);
 		direcccionDeInicioField.setText("00");
-		direcccionDeInicioField.setBounds(100, 55, 30, 19);
+		direcccionDeInicioField.setBounds(216, 86, 30, 19);
 		this.contentPane.add(direcccionDeInicioField);
 		direcccionDeInicioField.setColumns(10);
 		
 		lblDireccionInicio = new JLabel("Dir Inicio:");
 		lblDireccionInicio.setEnabled(false);
-		lblDireccionInicio.setBounds(20, 55, 70, 15);
+		lblDireccionInicio.setBounds(141, 88, 70, 15);
 		this.contentPane.add(lblDireccionInicio);
 		
 		lblCompilado = new JLabel("Compilado");
@@ -225,6 +232,16 @@ public class OCViewImpl implements OCView{
 		botonSiguiente.setEnabled(false);
 		botonSiguiente.setBounds(659, 239, 123, 25);
 		this.contentPane.add(botonSiguiente);
+		
+		JButton btnDetener = new JButton("Detener");
+		btnDetener.setEnabled(false);
+		btnDetener.setBounds(653, 99, 117, 25);
+		this.contentPane.add(btnDetener);
+		
+		botonGuardarPanel = new JButton("Guardar el Panel");
+		botonGuardarPanel.setEnabled(false);
+		botonGuardarPanel.setBounds(12, 52, 199, 25);
+		this.contentPane.add(botonGuardarPanel);
 		
 		labelPc = new JLabel("PC=");
 		labelPc.setEnabled(false);

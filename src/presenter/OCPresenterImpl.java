@@ -46,13 +46,32 @@ public class OCPresenterImpl implements OCPresenter {
 			}
 		}
 		@Override
-		public void onEventCompilar(String direccionInicio) {
-			updateArchivoActual();
+		public void onEventCompilar(String contenido,String direccionInicio) {
+			updateArchivoActual(archivoActual.getName(),contenido);
+			realizarCompilacion(direccionInicio);
+		}
+		private void realizarCompilacion(String direccionInicio) {
 			if(ocModel.compilaElArchivo(archivoActual, direccionInicio)){
 				ocView.habilitarOpcionesdeEjecucion();
 				ocView.updateCodigoCompilado(ocModel.obtenerCodigoCompilado());
 				ocView.mostrarMensaje("El Archivo se compilo correctamente");
 			}
+			
+		}
+		/*
+		@Override
+		public void onEventCargarDesdePanel(String contenido,String direccionInicio) {
+			updateArchivoActual("Archivo del Panel",contenido);
+			realizarCompilacion(direccionInicio);
+		}
+		*/
+		private void updateArchivoActual(String filename, String contenido) {
+			try{
+				ArchivoAbstractFactory maker= ocModel.getCreadorArchivo();
+				archivoActual=maker.crearArchivo(filename,contenido);
+			}catch(ErrorOCUNS error){
+				ocView.mostrarMensaje(error.getMessage());
+			}			
 		}
 		@Override
 		public void onEventEjecutar(boolean esEjecucionTotal) {
@@ -111,4 +130,5 @@ public class OCPresenterImpl implements OCPresenter {
 		public void updateInstrucionView(String instruccion) {
 			ocView.updateInstrucionView(instruccion);			
 		}
+		
 }

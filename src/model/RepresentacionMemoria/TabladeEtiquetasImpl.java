@@ -41,7 +41,7 @@ public class TabladeEtiquetasImpl implements TabladeEtiquetas {
 	private Integer getDireccionTarget(int direccion) throws ErrorSintactico{
 		Integer direccionTarget=etiquetas.get(pendiente.get(direccion));
 		if(direccionTarget==null)
-			throw new ErrorSintactico("ErrorSintactico = Etiqueta "+pendiente.get(direccion)+" no definida");
+			throw new ErrorSintactico("ErrorSintactico = La etiqueta \'"+pendiente.get(direccion)+"\' no definida");
 		return direccionTarget.intValue();
 	}
 	private boolean esDireccionAbsoluta(int opcode){

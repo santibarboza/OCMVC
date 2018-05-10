@@ -1,5 +1,7 @@
 package presenter;
 
+import java.util.Map;
+
 import Excepciones.ErrorEjecucion;
 import Excepciones.ErrorOCUNS;
 import view.OCView;
@@ -105,6 +107,11 @@ public class OCPresenterImpl implements OCPresenter {
 		public void onEventVerAyuda() {
 			ocView.mostrarAyuda();
 		}
+		@Override
+		public void onEventModificoArchivo() {
+			ocView.updateNombreArchivo(archivoActual.getName()+"*");
+			ocView.habilitarGuardarPanel();
+		}
 		//Funciones Model->View
 		@Override
 		public void mostrarMensaje(String mensaje) {
@@ -115,11 +122,11 @@ public class OCPresenterImpl implements OCPresenter {
 			return ocView.pedirDialogo(pedido);
 		}
 		@Override
-		public void updateRegistros(String[][] registros) {
+		public void updateRegistros(Map<Integer,String> registros) {
 			ocView.updateRegistros(registros);
 		}
 		@Override
-		public void updateMemoria(String[][] memoria) {
+		public void updateMemoria(Map<Integer,String> memoria) {
 			ocView.updateMemoria(memoria);
 		}
 		@Override

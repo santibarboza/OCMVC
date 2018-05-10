@@ -9,6 +9,7 @@ import model.Archivos.ArchivoAbstractFactory;
 import model.Archivos.ArchivoConcreteFactory;
 import model.Ejecucion.Ejecucion;
 import model.Ejecucion.EjecucionImpl;
+import model.Mapeo.MapFactoryImpl;
 import model.RepresentacionMemoria.Memoria;
 import model.RepresentacionMemoria.MemoriaImpl;
 import model.RepresentacionMemoria.RepresentacionDeLaMemoria;
@@ -21,7 +22,7 @@ public class OCModelModule {
 	  private OCModel ocModel;
 
 	  private OCModelModule() {
-		Memoria memoria=new MemoriaImpl();
+		Memoria memoria=new MemoriaImpl(new MapFactoryImpl<Integer,String>());
 		TabladeEtiquetas tablaDeEtiquetas=new TabladeEtiquetasImpl();
 		AnalizadorLexico analizadorLexico= new AnalizadorLexicoImpl(ReglasImpl.getInstance());
 		RepresentacionDeLaMemoria representacion= 

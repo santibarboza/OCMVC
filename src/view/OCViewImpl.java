@@ -3,7 +3,10 @@ package view;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,7 +20,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableModel;
 
 import presenter.OCPresenter;
 import view.help.VentanaHelp;
@@ -25,7 +27,7 @@ import view.help.VentanaHelp;
 
 
 public class OCViewImpl implements OCView{
-	private OCPresenter ocController;
+	private OCPresenter ocPresenter;
 	
 	//private JFrame ventanaPrincipal;
 	private JFrame ventanaMemoria;
@@ -49,7 +51,7 @@ public class OCViewImpl implements OCView{
 	
 	OCViewImpl(OCPresenter ocController) {
 
-	    this.ocController = ocController;
+	    this.ocPresenter = ocController;
 
 	    initialize();
 	    initListeners();
@@ -65,19 +67,19 @@ public class OCViewImpl implements OCView{
 	    
 		botonAbrirArchivo.addActionListener(new ActionListener() {
 	      public void actionPerformed(ActionEvent e) {
-	    	  ocController.onEventAbrirArchivo();
+	    	  ocPresenter.onEventAbrirArchivo();
     	  }
 		});
 		botonCompilar.addActionListener(new ActionListener() {
 	      public void actionPerformed(ActionEvent e) {
 	    	  String direccion=direcccionDeInicioField.getText();
 	    	  String contenido=contenidoArchivoActual.getText();
-	    	  ocController.onEventCompilar(contenido,direccion);
+	    	  ocPresenter.onEventCompilar(contenido,direccion);
     	  }
 		});
 		botonEjecutar.addActionListener(new ActionListener() {
 	      public void actionPerformed(ActionEvent e) {
-	    	  ocController.onEventEjecutar(esTipoEjecucionTotal());
+	    	  ocPresenter.onEventEjecutar(esTipoEjecucionTotal());
     	  }
 	      private boolean esTipoEjecucionTotal() {
 			return tipoDeEjecucion.getSelectedIndex()==0;
@@ -85,23 +87,31 @@ public class OCViewImpl implements OCView{
 		});		
 		botonVerMemoria.addActionListener(new ActionListener() {
 	      public void actionPerformed(ActionEvent e) {
-	    	  ocController.onEventVerMemoria();
+	    	  ocPresenter.onEventVerMemoria();
     	  }
 		});	
 		botonSiguiente.addActionListener(new ActionListener() {
 	      public void actionPerformed(ActionEvent e) {
-	    	  ocController.onEventSiguientePaso();
+	    	  ocPresenter.onEventSiguientePaso();
     	  }
 		});
 		botonVerAyuda.addActionListener(new ActionListener() {
 	      public void actionPerformed(ActionEvent e) {
-	    	  ocController.onEventVerAyuda();
+	    	  ocPresenter.onEventVerAyuda();
     	  }
 		});	
 		botonGuardarPanel.addActionListener(new ActionListener() {
 		      public void actionPerformed(ActionEvent e) {
 //		    	  ocController.onEventCargarDesdePanel(contenidoArchivoActual.getText(),direcccionDeInicioField.getText());
 	    	  }
+			});	
+		contenidoArchivoActual.addKeyListener(new KeyListener() {
+		    
+				public void keyPressed(KeyEvent keyEvent) {}
+		        public void keyReleased(KeyEvent keyEvent) {}
+		        public void keyTyped(KeyEvent keyEvent) {
+		        	ocPresenter.onEventModificoArchivo();
+		        }
 			});	
 
 	}
@@ -130,6 +140,14 @@ public class OCViewImpl implements OCView{
 	@Override
 	public void deshabilitarOpcionesdeEjecucionPasoaPaso() {
 		botonSiguiente.setEnabled(false);
+	}
+	@Override
+	public void habilitarGuardarPanel() {
+		botonGuardarPanel.setEnabled(true);
+	}
+	@Override
+	public void deshabilitarGuardarPanel() {
+		botonGuardarPanel.setEnabled(false);
 	}
 	private void initialize() {
 		this.contentPane=new JPanel();
@@ -209,7 +227,7 @@ public class OCViewImpl implements OCView{
 		String [][]a=new String[16][2];
 		for(int i=0;i<16;i++){
 			a[i][0]=("R"+Integer.toHexString(i)).toUpperCase();
-			a[i][1]="";
+			a[i][1]="00";
 		}
 		String[]columnNames={"Registros","Contenido"};
 		registrosTable = new JTable(a, columnNames);
@@ -276,7 +294,7 @@ public class OCViewImpl implements OCView{
 			b[i][1]="";
 		}for(int i=16;i<256;i++){
 			b[i][0]=(""+Integer.toHexString(i)).toUpperCase();
-			b[i][1]="";
+			b[i][1]="00";
 		}
 		
 		memoryTable = new JTable(b, cNames);
@@ -319,24 +337,14 @@ public class OCViewImpl implements OCView{
 		panelArchivoCompilado.setText(codigo);
 	}
 	@Override
-	public void updateRegistros(String[][] registros) {
-		String[] titulos = {"Registro","Contenido"};
-		DefaultTableModel m=new DefaultTableModel(null,titulos);
-		
-		for(int i=0;i<registros.length;i++)
-			m.addRow(registros[i]);
-		
-		registrosTable.setModel(m);
+	public void updateRegistros(Map<Integer,String> registros) {
+		for (Map.Entry<Integer, String> entry : registros.entrySet())
+			registrosTable.setValueAt(entry.getValue(),entry.getKey(), 1);
 	}
 	@Override
-	public void updateMemoria(String[][] memoria) {
-		String[] titulos = {"Dir","Memoria"};
-		DefaultTableModel m=new DefaultTableModel(null,titulos);
-		
-		for(int i=0;i<memoria.length;i++){
-			m.addRow(memoria[i]);
-		}
-		memoryTable.setModel(m);
+	public void updateMemoria(Map<Integer,String> memoria) {
+		for (Map.Entry<Integer, String> entry : memoria.entrySet())
+			memoryTable.setValueAt(entry.getValue(),entry.getKey(), 1);
 	}
 	@Override
 	public void updatePCView(String pc) {

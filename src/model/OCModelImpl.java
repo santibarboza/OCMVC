@@ -195,47 +195,14 @@ public class OCModelImpl implements OCModel {
 
 	@Override
 	public void updateRegistros() {
-		String [][] registros=new String [16][2];
-		for(int i=0;i<16;i++){
-			registros[i][0]=cargarNombreRegistro(i);
-			registros[i][1]=cargarContenidoRegistro(i);
-		}
-		ocPresenter.updateRegistros(registros);
-	}
-
-
-	private String cargarNombreRegistro(int i) {
-		return "R"+Hexadecimal.hex(i);
-	}
-	private String cargarContenidoRegistro(int i) {
 		Memoria memoria=ejecucion.getMemoria();
-		String contenido="";
-		int valor=memoria.leerRegistro(i);
-		if(tieneUnDigitoHexa(valor))
-			contenido+="0";
-		contenido+=Hexadecimal.hex(valor);
-		return contenido;
-	}
-
-	private boolean tieneUnDigitoHexa(int valor) {
-		return valor<16;
+		ocPresenter.updateRegistros(memoria.getUpdateRegistro());
 	}
 
 	@Override
 	public void updateMemoria() {
-		String [][] memoria=new String [256][2];
-		for(int i=0;i<16;i++){
-			memoria[i][0]=cargarIndiceMemoria(i);
-			memoria[i][1]=cargarContenidoMemoria(i);
-		}	
-		ocPresenter.updateMemoria(memoria);
-	}
-	private String cargarContenidoMemoria(int i) {
 		Memoria memoria=ejecucion.getMemoria();
-		return Hexadecimal.hex2Dig(memoria.leerMemoria(i));
-	}
-	private String cargarIndiceMemoria(int i) {
-		return Hexadecimal.hex2Dig(i);
+		ocPresenter.updateMemoria(memoria.getUpdateMemoria());
 	}
 	@Override
 	public void updatePCView(String pc) {

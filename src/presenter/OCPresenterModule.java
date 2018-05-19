@@ -32,7 +32,7 @@ public class OCPresenterModule {
 	  }
 	  void startApplication(OCViewModule viewModule) {
 	    OCPresenter presenter = getOCPresenter();
-        viewModule.openOCWindow(presenter);
+	    OCView view = viewModule.openOCWindow(presenter);
 	    presenter.setOCView(view);
 	    setPresenterToModel(presenter);
 	  }

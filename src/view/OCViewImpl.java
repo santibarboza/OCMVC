@@ -291,7 +291,7 @@ public class OCViewImpl implements OCView{
 		String [][]b=new String[256][2];
 		for(int i=0;i<16;i++){
 			b[i][0]=("0"+Integer.toHexString(i)).toUpperCase();
-			b[i][1]="";
+			b[i][1]="00";
 		}for(int i=16;i<256;i++){
 			b[i][0]=(""+Integer.toHexString(i)).toUpperCase();
 			b[i][1]="00";

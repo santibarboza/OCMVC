@@ -30,4 +30,10 @@ public class OCPresenterModule {
 	  private void setPresenterToModel(OCPresenter presenter) {
 		  OCModelModule.getInstance().getOCModel().setOCPresenter(presenter);
 	  }
+	  void startApplication(OCViewModule viewModule) {
+	    OCPresenter presenter = getOCPresenter();
+        viewModule.openOCWindow(presenter);
+	    presenter.setOCView(view);
+	    setPresenterToModel(presenter);
+	  }
 }

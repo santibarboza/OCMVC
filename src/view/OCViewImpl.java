@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -102,8 +104,8 @@ public class OCViewImpl implements OCView{
 		});	
 		botonGuardarPanel.addActionListener(new ActionListener() {
 		      public void actionPerformed(ActionEvent e) {
-//		    	  ocController.onEventCargarDesdePanel(contenidoArchivoActual.getText(),direcccionDeInicioField.getText());
-	    	  }
+		    	  ocPresenter.onEventGuardarArchivo();
+		      }
 			});	
 		contenidoArchivoActual.addKeyListener(new KeyListener() {
 		    
@@ -319,6 +321,20 @@ public class OCViewImpl implements OCView{
 	public boolean pedirAbrirArchivo() {
 		int opcion = fileChooser.showDialog(null, "Abrir");
 		return (opcion == JFileChooser.APPROVE_OPTION);
+	}
+	@Override
+	public boolean guardarArchivo() {
+		int seleccion = fileChooser.showSaveDialog(null);
+		 if (seleccion == JFileChooser.APPROVE_OPTION){
+			 try {
+			 	PrintWriter printwriter= new PrintWriter(recuperarArchivo());
+				printwriter.print(contenidoArchivoActual.getText());
+			 	printwriter.close();
+			 } catch (FileNotFoundException e) {
+				 mostrarMensaje("Error al Guardar el Archivo");
+			 }
+		 }
+		return (seleccion == JFileChooser.APPROVE_OPTION);
 	}
 	@Override
 	public File recuperarArchivo() {

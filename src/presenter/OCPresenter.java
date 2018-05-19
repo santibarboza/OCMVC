@@ -7,6 +7,7 @@ import view.OCView;
 public interface OCPresenter {
 	public void setOCView(OCView ocView);
 	public void onEventAbrirArchivo();
+	public void onEventGuardarArchivo();
 	public void onEventCompilar(String contenido,String direccionInicio);
 	public void onEventEjecutar(boolean esEjecucionTotal);
 	public void onEventVerMemoria();

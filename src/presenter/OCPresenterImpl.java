@@ -21,7 +21,6 @@ public class OCPresenterImpl implements OCPresenter {
 		public void setOCView(OCView ocView) {
 			this.ocView = ocView;
 		}
-		@Override
 		public void onEventAbrirArchivo() {
 			if(ocView.pedirAbrirArchivo()){
 				updateArchivoActual();
@@ -30,6 +29,16 @@ public class OCPresenterImpl implements OCPresenter {
 				ocView.updateTextoTutorial("Archivo Cargado con Exito! Puede Compilarlo o Abrir uno nuevo");
 				ocView.updateNombreArchivo(fileName);
 				updateContenidoArchivoActual(fileName);
+			}
+		}
+		@Override
+		public void onEventGuardarArchivo() {
+			if(ocView.guardarArchivo()){
+				updateArchivoActual();
+				String fileName=archivoActual.getName();
+				ocView.habilitarOpcionesdeCompilacion();
+				ocView.updateTextoTutorial("Archivo Guardado con Exito! Puede Compilarlo o Abrir uno nuevo");
+				ocView.updateNombreArchivo(fileName);
 			}
 		}
 		private void updateArchivoActual(){
@@ -109,8 +118,10 @@ public class OCPresenterImpl implements OCPresenter {
 		}
 		@Override
 		public void onEventModificoArchivo() {
-			ocView.updateNombreArchivo(archivoActual.getName()+"*");
+			if(archivoActual!=null)
+				ocView.updateNombreArchivo(archivoActual.getName()+"*");
 			ocView.habilitarGuardarPanel();
+			
 		}
 		//Funciones Model->View
 		@Override

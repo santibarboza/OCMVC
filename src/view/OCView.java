@@ -23,5 +23,6 @@ public interface OCView {
 	public void mostrarMensaje(String mensaje);
 	public String pedirDialogo(String pedido);
 	public boolean pedirAbrirArchivo();
+	public boolean guardarArchivo();
 	public File recuperarArchivo();
 }

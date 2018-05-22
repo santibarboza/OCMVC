@@ -378,4 +378,8 @@ public class OCViewImpl implements OCView{
 	public void mostrarAyuda() {
 		ventanaHelp.setVisible(true);
 	}
+	@Override
+	public void updateLogs(String log) {
+		System.out.println(log);	
+	}
 }

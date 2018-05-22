@@ -214,4 +214,9 @@ public class OCModelImpl implements OCModel {
 		String instruccion=mostrarInstruccion(memoria,pc);
 		ocPresenter.updateInstrucionView(instruccion);
 	}
+
+	@Override
+	public void updateLogs(String log) {
+		ocPresenter.updateLogs(log);
+	}
 }

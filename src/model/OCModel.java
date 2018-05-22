@@ -20,5 +20,6 @@ public interface OCModel {
 	public void updateRegistros();
 	public void updateMemoria();
 	public void updatePCView(String pc);
+	public void updateLogs(String log);
 	public void updateInstrucionView(Memoria memoria,int pc);
 }

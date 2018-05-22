@@ -21,4 +21,5 @@ public interface OCPresenter {
 	public void updateMemoria(Map<Integer,String> memoria);
 	public void updatePCView(String pc);
 	public void updateInstrucionView(String instruccion);
+	public void updateLogs(String log);
 }

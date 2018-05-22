@@ -12,6 +12,7 @@ public interface OCView {
 	public void updateMemoria(Map<Integer,String> memoria);
 	public void updatePCView(String pc);
 	public void updateInstrucionView(String instruccion);
+	public void updateLogs(String log);
 	public void habilitarOpcionesdeEjecucion();
 	public void habilitarOpcionesdeEjecucionPasoaPaso();
 	public void deshabilitarOpcionesdeEjecucionPasoaPaso();

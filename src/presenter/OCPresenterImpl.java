@@ -148,5 +148,9 @@ public class OCPresenterImpl implements OCPresenter {
 		public void updateInstrucionView(String instruccion) {
 			ocView.updateInstrucionView(instruccion);			
 		}
+		@Override
+		public void updateLogs(String log) {
+			ocView.updateLogs(log);
+		}
 		
 }
